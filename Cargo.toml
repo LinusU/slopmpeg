@@ -1,8 +1,10 @@
 [package]
 name = "slopmpeg"
-version = "0.0.0"
-edition = "2021"
-publish = false
-
-[lib]
-path = "src/lib.rs"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.86"
+description = "MPEG-1 video decoder, MP2 audio decoder and MPEG Program Stream demuxer; a Rust port of PL_MPEG"
+license = "MIT"
+repository = "https://github.com/LinusU/slopmpeg"
+keywords = ["mpeg", "video", "audio", "decoder", "mp2"]
+categories = ["multimedia::video", "multimedia::audio", "multimedia::encoding"]
