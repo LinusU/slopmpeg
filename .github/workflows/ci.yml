@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install stable --profile minimal --component clippy,rustfmt
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo test
+      - run: cargo doc --no-deps
+        env:
+          RUSTDOCFLAGS: -D warnings
+
+  msrv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install 1.86 --profile minimal
+      - run: cargo +1.86 check --all-targets
