@@ -1,69 +1,26 @@
-# PL_MPEG - MPEG1 Video decoder, MP2 Audio decoder, MPEG-PS demuxer
+# slopmpeg 🦀
 
-Single-file MIT licensed library for C/C++
+A questionable Rust port of [PL_MPEG](https://github.com/phoboslab/pl_mpeg), brought to you by artificial intelligence and insufficient supervision.
 
-See [pl_mpeg.h](https://github.com/phoboslab/pl_mpeg/blob/master/pl_mpeg.h) for
-the documentation.
+## About
 
+**All credit for the original implementation belongs to Dominic Szablewski**, creator of PL_MPEG. This project is in no way affiliated with or endorsed by the original PL_MPEG author.
 
-## Why?
+PL_MPEG is a small, dependency-free C library implementing MPEG-1 video decoding, MP2 audio decoding, and MPEG Program Stream demultiplexing.
 
-This is meant as a simple way to get video playback into your app or game. Other
-solutions, such as ffmpeg require huge libraries and a lot of glue code.
+slopmpeg is an attempt to translate that implementation into Rust, for ease of use in other Rust projects.
 
-MPEG1 is an old and inefficient codec, but it's still good enough for many use
-cases. All patents related to MPEG1 and MP2 have expired, so it's completely
-free now.
+### ⚠️ Experimental software
 
-This library does not make use of any SIMD instructions, but because of
-the relative simplicity of the codec it still manages to decode 4k60fps video
-on a single CPU core (on my i7-6700k at least).
+This project is primarily an experiment in AI-driven software development.
 
+- The code has received limited human review.
+- Correctness and memory safety are not guaranteed.
+- Do not use it to decode untrusted media without appropriate isolation.
+- It is not affiliated with or endorsed by the original PL_MPEG author.
 
-## Building
+## License
 
-A Makefile to build the example applications is included. 
+slopmpeg is derived from PL_MPEG, licensed under the MIT License.
 
-- `pl_mpeg_extract_frames`: a command line tool that dumps all frames into BMPs
-- `pl_mpeg_player_gl`: a video player using SDL2 and OpenGL
-- `pl_mpeg_player_sdl`: a video player using SDL2 and it's built-in 2d renderer
-
-The players require the SDL2 library to be installed.
-
-```shell
-make # build all
-make extract # only build pl_mpeg_extract_frames
-make player_gl # only build pl_mpeg_player_gl
-make player_sdl # only build pl_mpeg_player_sdl
-```
-
-
-## Encoding for PL_MPEG
-
-Most [MPEG-PS](https://en.wikipedia.org/wiki/MPEG_program_stream) (`.mpg`) files
-containing MPEG1 Video ("mpeg1") and MPEG1 Audio Layer II ("mp2") streams should
-work with PL_MPEG. Note that `.mpg` files can also contain MPEG2 Video, which is
-not supported by this library.
-
-You can encode video in a suitable format using ffmpeg:
-
-```
-ffmpeg -i input.mp4 -c:v mpeg1video -q:v 0 -c:a libtwolame -b:a 224k -format mpeg output.mpg
-```
-
-`-q:v` sets a fixed video quality with a variable bitrate, where `0` is the 
-highest. You may use `-b:v` to set a fixed bitrate instead; e.g. 
-`-b:v 2000k` for 2000 kbit/s. Please refer to the 
-[ffmpeg documentation](http://ffmpeg.org/ffmpeg.html#Options) for more details.
-
-If you just want to quickly test the library, try this file:
-
-https://phoboslab.org/files/bjork-all-is-full-of-love.mpg
-
-
-## Limitations
-
-- no error reporting. PL_MPEG will silently ignore any invalid data.
-- the pts (presentation time stamp) for packets in the MPEG-PS container is
-ignored. This may cause sync issues with some files.
-- bugs, probably.
+The original copyright notices and license are preserved. The complete upstream Git history is retained to make the project's origins and subsequent changes transparent.
